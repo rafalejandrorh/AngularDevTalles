@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-hero',
@@ -10,9 +10,14 @@ export class HeroPageComponent {
   nameSignal = signal('Ironman');
   ageSignal = signal(45);
 
-  // capitalizedName(name: string):string {
-  //     return name.toUpperCase();
-  // }
+  heroDescription = computed(() => {
+    const description = `${ this.name() } - ${ this.ageSignal() }`;
+    return description;
+  });
+
+  capitalizedName = computed(() => {
+    return this.name().toUpperCase();
+  });
 
   name():string {
     return this.nameSignal();
@@ -20,10 +25,6 @@ export class HeroPageComponent {
 
   age():number {
     return this.ageSignal();
-  }
-
-  getHeroDescription():string {
-    return `${this.nameSignal()} - ${this.ageSignal()}`;
   }
 
   changeHero():void {
