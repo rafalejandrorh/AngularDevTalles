@@ -1,5 +1,4 @@
-import { NgClass } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 interface Character {
   id: number;
@@ -9,26 +8,20 @@ interface Character {
 
 @Component({
   selector: 'app-dragonball',
-  templateUrl: './dragonball-page.component.html',
-  styleUrl: './dragonball-page.component.css',
-  imports: [
-    // NgClass
-  ],
+  templateUrl: './dragonball-super-page.component.html',
+  styleUrl: './dragonball-super-page.component.css',
+  imports: [],
 })
-export class DragonballPageComponent {
+export class DragonballSuperPageComponent {
 
   name = signal('');
   power = signal(0);
 
   characters = signal<Character[]>([
-    { id: 1, name: 'Goku', power: 15000 }
+    { id: 1, name: 'Goku', power: 15000 },
+    { id: 2, name: 'Vegeta', power: 13000 }
   ]);
 
-  powerClasses = computed(() => {
-    return {
-      'text-danger': true
-    }
-  });
 
   addCharacter() {
     //console.log(this.name(), this.power());
@@ -40,7 +33,7 @@ export class DragonballPageComponent {
       power: this.power()
     }
     this.characters.update(characters => [...characters, newCharacter]);
-
+    
     this.resetFields();
   }
   
