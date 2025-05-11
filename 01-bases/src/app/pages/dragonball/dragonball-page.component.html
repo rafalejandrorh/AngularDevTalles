@@ -15,14 +15,21 @@
         <h3>Listado</h3>
         <ul>
             @for (character of characters(); track character.id; let idx = $index) {
-                <li>
-                    <span>{{ idx + 1 }} - {{ character.name }}</span>
-                    <strong [class.text-danger]="character.power > 14000"
-                            [class.text-primary]="character.power <= 10000"
-                            [class.text-warning]="character.power > 10000 && character.power <= 14000"
-                    > ({{ character.power }}) </strong>
-                    <!-- [ngClass]="powerClasses()" -->
-                </li>
+                @if (character.power > 8000) {
+                    <li>
+                        <span>{{ idx + 1 }} - {{ character.name }}</span>
+                        <strong [class.text-danger]="character.power > 14000"
+                                [class.text-primary]="character.power <= 10000"
+                                [class.text-warning]="character.power > 10000 && character.power <= 14000"
+                        > ({{ character.power }}) </strong>
+                        <!-- [ngClass]="powerClasses()" -->
+                    </li>
+                }
+                <!-- } @else {
+                    <li>
+                        <strong>Sin Resultados Interesantes</strong>
+                    </li>
+                } -->
             }
         </ul>
     </div>
