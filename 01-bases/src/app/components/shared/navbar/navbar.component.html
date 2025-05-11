@@ -1,4 +1,9 @@
  <nav>
-    <a [routerLink]="['/counter']" > Counter </a>
-    <a [routerLink]="['/hero']" > Hero </a>
+    <a  routerLink="/counter" 
+        routerLinkActive="router-link-active" 
+        [routerLinkActiveOptions]="{ exact: true }"> Counter </a>
+
+    <a  [routerLink]="['/hero']" 
+        [routerLinkActive]="'router-link-active'" 
+        [routerLinkActiveOptions]="{ exact: true }"> Hero </a>
  </nav>
