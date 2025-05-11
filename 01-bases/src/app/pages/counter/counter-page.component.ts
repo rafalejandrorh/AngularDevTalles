@@ -16,7 +16,7 @@ export class CounterPageComponent {
     setInterval(() => {
       //console.log('Tick');
       //this.counter += 1;
-      this.counterSignal.update((current) => current + 1);
+      //this.counterSignal.update((current) => current + 1);
       //this.increaseBy(1);
     }, 2000)
   }
