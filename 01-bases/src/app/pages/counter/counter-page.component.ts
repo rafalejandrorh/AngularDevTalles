@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   selector: 'app-counter',
   templateUrl: './counter-page.component.html',
   styleUrl: './counter-page.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush, // Use Zoneless
   standalone: true,
   imports: [],
 })
