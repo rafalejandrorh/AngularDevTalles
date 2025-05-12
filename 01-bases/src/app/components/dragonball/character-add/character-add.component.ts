@@ -8,7 +8,7 @@ import { Character } from '../../../interfaces/character.interface';
 export class CharacterAddComponent {
   name = signal('');
   power = signal(0);
-  newCharacter = output<Character>();
+  saveCharacter = output<Character>();
 
   addCharacter() {
     //console.log(this.name(), this.power());
@@ -19,7 +19,7 @@ export class CharacterAddComponent {
       name: this.name(),
       power: this.power()
     }
-    this.newCharacter.emit(newCharacter);
+    this.saveCharacter.emit(newCharacter);
 
     this.resetFields();
   }
