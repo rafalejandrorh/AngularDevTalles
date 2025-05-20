@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GifListComponent } from "../../components/gif-list/gif-list.component";
 import { GifService } from '../../services/gif.service';
+import { RandomListComponent } from "../../components/gif-list/random-list/random-list.component";
 
 // const imageUrls: string[] = [
 //   "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg",
@@ -19,7 +20,7 @@ import { GifService } from '../../services/gif.service';
 
 @Component({
   selector: 'app-trending-page',
-  imports: [GifListComponent],
+  imports: [GifListComponent, RandomListComponent],
   templateUrl: './trending-page.component.html',
 })
 export default class TrendingPageComponent {
