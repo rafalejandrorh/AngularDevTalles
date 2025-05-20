@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, ElementRef, input, viewChild } from '@angular/core';
 import { Gif } from 'src/app/gifs/interfaces/gif.interface';
 
 @Component({
@@ -8,4 +8,6 @@ import { Gif } from 'src/app/gifs/interfaces/gif.interface';
 })
 export class RandomListComponent { 
   gifsGroup = input.required<Gif[][]>();
+
+  scrollDivRef = viewChild<ElementRef>('groupDiv');
 }
