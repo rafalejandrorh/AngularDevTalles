@@ -1,5 +1,6 @@
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { Gif } from 'src/app/gifs/interfaces/gif.interface';
+import { GifService } from 'src/app/gifs/services/gif.service';
 
 @Component({
   selector: 'gif-random-list',
@@ -7,8 +8,9 @@ import { Gif } from 'src/app/gifs/interfaces/gif.interface';
   templateUrl: './random-list.component.html',
 })
 export class RandomListComponent { 
-  gifsGroup = input.required<Gif[][]>();
 
+  gifService = inject(GifService);
+  gifsGroup = input.required<Gif[][]>();
   scrollDivRef = viewChild<ElementRef>('groupDiv');
 
   onScroll(event: Event) {
@@ -19,6 +21,12 @@ export class RandomListComponent {
     const clientHeight = scrollDiv.clientHeight;
     const isAtBottom = scrollTop + clientHeight + 300 >= scrollHeight;
     if (isAtBottom) {
+      this.loadMoreGifs();
     }
   }
+
+  loadMoreGifs() {
+    this.gifService.loadTrendingGifs();
+  }
+
 }
