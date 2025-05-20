@@ -10,4 +10,8 @@ export class RandomListComponent {
   gifsGroup = input.required<Gif[][]>();
 
   scrollDivRef = viewChild<ElementRef>('groupDiv');
+  onScroll(event: Event) {
+    const scrollDiv = this.scrollDivRef()?.nativeElement;
+    if(!scrollDiv) return;
+  }
 }
