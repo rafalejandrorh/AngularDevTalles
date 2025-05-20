@@ -21,10 +21,18 @@ export class GifService {
 
   trendingGifs = signal<Gif[]>([]);
   trendingGifsLoading = signal(true);
+  trendingGifGroup = computed<Gif[][]>(() => {
+    const gifs = this.trendingGifs();
+    const gifsGroup: Gif[][] = [];
+    for (let i = 0; i < gifs.length; i += 3) {
+      gifsGroup.push(gifs.slice(i, i + 3));
+    }
+    return gifsGroup;
+  });
   searchHistory = signal<Record<string, Gif[]>>(loadFromLocalStorage());
   searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
 
-  saveGifsToLocalStorage = effect( () => {
+  saveGifsToLocalStorage = effect(() => {
     localStorage.setItem(GIF_KEY, JSON.stringify(this.searchHistory()));
   });
 
