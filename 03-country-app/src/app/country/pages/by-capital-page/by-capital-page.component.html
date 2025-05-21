@@ -5,6 +5,13 @@
 />
 
 <!-- Componente Reutilizable country-list -->
+@if(isError()) {
+    <div class="alert alert-error my-3">
+        <strong>Error:</strong>
+        {{ isError() }}
+    </div>
+}
+
 <country-list
     [countries]="countries()"
 />

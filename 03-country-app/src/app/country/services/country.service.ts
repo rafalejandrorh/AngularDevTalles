@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RestCountryResponse } from '../interfaces/rest-countries.interface';
 import { CountryMapper } from '../mappers/country.mapper';
-import { map, Observable } from 'rxjs';
+import { map, Observable, catchError, throwError } from 'rxjs';
 import { Country } from '../interfaces/country.interface';
 
 @Injectable({
@@ -18,7 +18,11 @@ export class CountryService {
   searchByCapital(capital: string): Observable<Country[]> {
     const url = `${this.restCountriesUrl}/capital/${capital.toLowerCase()}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
-      map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries))
+      map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      catchError((error) => {
+        console.error('Error fetching countries by capital:', error);
+        return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${capital}`));
+      })
     );
   }
 
