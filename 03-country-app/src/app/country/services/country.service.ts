@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { RestCountryResponse } from '../interfaces/rest-countries.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CountryService {
 
   searchByCapital(capital: string) {
     const url = `${this.restCountriesUrl}/capital/${capital.toLowerCase()}`
-    return this.http.get(url)
+    return this.http.get<RestCountryResponse[]>(url)
   }
 
   searchByCountry(country: string) {
