@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { ListComponent } from "../../components/list/list.component";
 import { CountryService } from '../../services/country.service';
-import { CountryMapper } from '../../mappers/country.mapper';
 import { Country } from '../../interfaces/country.interface';
 
 @Component({
@@ -18,7 +17,6 @@ export class ByCapitalPageComponent {
   isError = signal<string|null>(null);
   countries = signal<Country[]>([]);
 
-
   onSearch(value: string) {
 
     if(this.isLoading()) return;
@@ -28,9 +26,8 @@ export class ByCapitalPageComponent {
 
     this.countryService.searchByCapital(value)
     .subscribe((response) => {
-      const countries = CountryMapper.mapRestCountriesToCountriesArray(response);
       this.isLoading.set(false);
-      this.countries.set(countries);
+      this.countries.set(response);
     });
 
   }
