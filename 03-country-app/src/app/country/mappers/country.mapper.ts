@@ -3,18 +3,18 @@ import { RestCountryResponse } from "../interfaces/rest-countries.interface";
 
 export class CountryMapper {
     
-    static mapRestCountryToCountry(country: RestCountryResponse): Country {
+    static mapRestCountryToCountry(restCountry: RestCountryResponse): Country {
       return {
-        cca2: country.cca2,
-        flag: country.flag,
-        flagSvg: country.flags.svg,
-        name: country.name.common,
-        capital: country.capital[0],
-        population: country.population,
+        cca2: restCountry.cca2,
+        flag: restCountry.flag,
+        flagSvg: restCountry.flags.svg,
+        name: restCountry.name.common,
+        capital: restCountry.capital[0],
+        population: restCountry.population,
     }
     }
 
-    static mapRestCountriesToCountriesArray(items: RestCountryResponse[]): Country[] {
-      return items.map(this.mapRestCountryToCountry);
+    static mapRestCountriesToCountriesArray(restCountries: RestCountryResponse[]): Country[] {
+      return restCountries.map(this.mapRestCountryToCountry);
     }
 }
