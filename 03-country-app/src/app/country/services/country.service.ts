@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RestCountryResponse } from '../interfaces/rest-countries.interface';
 import { CountryMapper } from '../mappers/country.mapper';
-import { map, Observable, catchError, throwError } from 'rxjs';
+import { map, Observable, catchError, throwError, delay } from 'rxjs';
 import { Country } from '../interfaces/country.interface';
 
 @Injectable({
@@ -19,6 +19,7 @@ export class CountryService {
     const url = `${this.restCountriesUrl}/capital/${capital.toLowerCase()}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
       map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      // delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
         console.error('Error fetching countries by capital:', error);
         return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${capital}`));
@@ -30,6 +31,7 @@ export class CountryService {
     const url = `${this.restCountriesUrl}/name/${country.toLowerCase()}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
       map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      //delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
         console.error('Error fetching countries by name:', error);
         return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${country}`));
