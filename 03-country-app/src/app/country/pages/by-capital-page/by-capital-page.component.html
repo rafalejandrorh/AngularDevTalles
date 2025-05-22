@@ -1,11 +1,15 @@
 <!-- Componente Reutilizable country-search-input -->
-<country-search-input
+<!-- <country-search-input
     placeholder="Buscar por Capital"
     (value)="onSearch($event)"
+/> -->
+<country-search-input
+    placeholder="Buscar por Capital"
+    (value)="query.set($event)"
 />
 
 <!-- Componente Reutilizable country-list -->
-@if(isError()) {
+<!-- @if(isError()) {
     <div class="alert alert-error my-3">
         <strong>Error:</strong>
         {{ isError() }}
@@ -14,4 +18,16 @@
 
 <country-list
     [countries]="countries()"
-/>
+/> -->
+@if(countryResources.error()) {
+    <div class="alert alert-error my-3">
+        <strong>Error:</strong>
+        {{ countryResources.error() }}
+    </div>
+}
+
+@if(countryResources.hasValue()) {
+    <country-list
+        [countries]="countryResources.value()!"
+    />
+}
