@@ -14,6 +14,7 @@ export class ByCountryPageComponent {
   countryService = inject(CountryService);
   query = signal<string>('');
 
+  // resource is Experimental
   countryResources = resource({
     request: () => ({ query: this.query() }),
     loader: async({ request }) => {
