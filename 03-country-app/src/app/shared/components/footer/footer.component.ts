@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -6,5 +6,7 @@ import { Component, signal } from '@angular/core';
   templateUrl: './footer.component.html',
 })
 export class FooterComponent { 
-  currentYear = signal(new Date().getFullYear())
+  currentYear = computed(() => {
+    return new Date().getFullYear()
+  })
 }
