@@ -28,7 +28,13 @@ export class CountryService {
 
   searchByCountry(country: string) {
     const url = `${this.restCountriesUrl}/name/${country.toLowerCase()}`
-    return this.http.get(url)
+    return this.http.get<RestCountryResponse[]>(url).pipe(
+      map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      catchError((error) => {
+        console.error('Error fetching countries by name:', error);
+        return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${country}`));
+      })
+    );
   }
 
   searchByAlphaCode(code: string) {
