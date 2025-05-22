@@ -18,7 +18,7 @@ export class CountryService {
   searchByCapital(capital: string): Observable<Country[]> {
     const url = `${this.restCountriesUrl}/capital/${capital.toLowerCase()}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
-      map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
       // delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
         console.error('Error fetching countries by capital:', error);
@@ -30,7 +30,7 @@ export class CountryService {
   searchByCountry(country: string) {
     const url = `${this.restCountriesUrl}/name/${country.toLowerCase()}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
-      map((countries) => CountryMapper.mapRestCountriesToCountriesArray(countries)),
+      map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
       //delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
         console.error('Error fetching countries by name:', error);
@@ -41,7 +41,14 @@ export class CountryService {
 
   searchByAlphaCode(code: string) {
     const url = `${this.restCountriesUrl}/alpha/${code}`
-    return this.http.get(url)
+    return this.http.get<RestCountryResponse[]>(url).pipe(
+      map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
+      map((countries) => countries.at(0)),
+      catchError((error) => {
+        console.error('Error fetching countries by alpha code:', error);
+        return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${code}`));
+      })
+    );
   }
 
   searchByRegion(region: string) {
