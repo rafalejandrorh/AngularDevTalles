@@ -4,6 +4,8 @@
 }
 
 @if(countryResource.hasValue()) {
-    <h3>Nombre: {{ countryResource.value()!.name }}</h3>
+    <country-information 
+        [country] = "countryResource.value()!"
+    />
 }
 
