@@ -6,6 +6,7 @@
 <country-search-input
     placeholder="Buscar por Capital"
     (value)="query.set($event)"
+    [debounceTime]="200"
 />
 
 <!-- Componente Reutilizable country-list -->
