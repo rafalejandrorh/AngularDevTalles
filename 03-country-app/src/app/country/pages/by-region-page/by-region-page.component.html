@@ -1,17 +1,7 @@
-<!-- Componente Reutilizable country-search-input -->
-<section class="row mt-2">
-    <div class="flex-col"> 
-        @for (region of regions; track $index) {
-            <button
-                class="btn btn-outline mr-2 w-25"
-                [class.btn-primary]="region === selectedRegion()"
-                (click)="selectRegion(region)"
-            >
-                {{ region }}
-            </button>
-        }
-    </div>
-</section>
+<!-- Componente Reutilizable country-search-region-button -->
+<country-search-region-button
+    (value)="query.set($event)"
+/>
 
 <!-- Componente Reutilizable country-list -->
 <country-list
