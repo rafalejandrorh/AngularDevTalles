@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RestCountryResponse } from '../interfaces/rest-countries.interface';
 import { CountryMapper } from '../mappers/country.mapper';
-import { map, Observable, catchError, throwError, delay } from 'rxjs';
+import { tap, map, Observable, catchError, throwError, delay, of } from 'rxjs';
 import { Country } from '../interfaces/country.interface';
 
 @Injectable({
@@ -12,13 +12,23 @@ import { Country } from '../interfaces/country.interface';
 export class CountryService {
 
   private http = inject(HttpClient)
-
+  private queryCacheCapital = new Map<string, Country[]>();
+  private queryCacheCountry = new Map<string, Country[]>();
+  private queryCacheRegion = new Map<string, Country[]>();
   private restCountriesUrl = environment.restCountries.url;
 
   searchByCapital(capital: string): Observable<Country[]> {
-    const url = `${this.restCountriesUrl}/capital/${capital.toLowerCase()}`
+    const query = capital.toLowerCase();
+    if(this.queryCacheCapital.has(query)) {
+      console.log('Returning cached result for capital:', capital);
+      return of(this.queryCacheCapital.get(query)!);
+    }
+
+    console.log('Fetching from API for capital:', capital);
+    const url = `${this.restCountriesUrl}/capital/${query}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
       map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
+      tap(countries => this.queryCacheCapital.set(query, countries)),
       // delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
         console.error('Error fetching countries by capital:', error);
@@ -28,11 +38,22 @@ export class CountryService {
   }
 
   searchByCountry(country: string) {
-    const url = `${this.restCountriesUrl}/name/${country.toLowerCase()}`
+    const query = country.toLowerCase();
+    if(this.queryCacheCountry.has(query)) {
+      console.log('Returning cached result for country:', country);
+      return of(this.queryCacheCountry.get(query)!).pipe(
+        delay(3000) // Simulate a delay of 3 second
+      );
+    }
+
+    console.log('Fetching from API for country:', country);
+    const url = `${this.restCountriesUrl}/name/${query}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
       map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
-      //delay(3000), // Simulate a delay of 3 second
+      tap(countries => this.queryCacheCountry.set(query, countries)),
+      delay(3000), // Simulate a delay of 3 second
       catchError((error) => {
+        console.log(error);
         console.error('Error fetching countries by name:', error);
         return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${country}`));
       })
@@ -52,10 +73,17 @@ export class CountryService {
   }
 
   searchByRegion(region: string) {
-    const url = `${this.restCountriesUrl}/region/${region.toLowerCase()}`
+    const query = region.toLowerCase();
+    if(this.queryCacheRegion.has(query)) {
+      console.log('Returning cached result for region:', region);
+      return of(this.queryCacheRegion.get(query)!);
+    }
+
+    console.log('Fetching from API for region:', region);
+    const url = `${this.restCountriesUrl}/region/${query}`
     return this.http.get<RestCountryResponse[]>(url).pipe(
       map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
-      //delay(3000), // Simulate a delay of 3 second
+      tap(countries => this.queryCacheRegion.set(query, countries)),
       catchError((error) => {
         console.error('Error fetching countries by region:', error);
         return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${region}`));
