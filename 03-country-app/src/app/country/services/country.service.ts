@@ -53,7 +53,14 @@ export class CountryService {
 
   searchByRegion(region: string) {
     const url = `${this.restCountriesUrl}/region/${region.toLowerCase()}`
-    return this.http.get(url)
+    return this.http.get<RestCountryResponse[]>(url).pipe(
+      map((response) => CountryMapper.mapRestCountriesToCountriesArray(response)),
+      //delay(3000), // Simulate a delay of 3 second
+      catchError((error) => {
+        console.error('Error fetching countries by region:', error);
+        return throwError(() => new Error(`No se encontraron Países con esa búsqueda: ${region}`));
+      })
+    );
   }
 
 }
