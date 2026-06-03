@@ -1,8 +1,14 @@
 <!-- Componente Reutilizable country-search-input -->
 <country-search-input
     placeholder="Buscar por Región"
-    (value)="onSearch($event)"
+    (value)="query.set($event)"
+    [debounceTime]="200"
 />
 
 <!-- Componente Reutilizable country-list -->
-<country-list/>
+<country-list
+    [countries]="countryResources.value() ?? []"
+    [errorMessage]="countryResources.error()"
+    [isLoading]="countryResources.isLoading()"
+    [isEmpty]="countryResources.value()?.length === 0"
+/>
