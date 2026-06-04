@@ -1,11 +1,8 @@
 <!-- Componente Reutilizable country-search-input -->
-<!-- <country-search-input
-    placeholder="Buscar por País"
-    (value)="onSearch($event)"
-/> -->
 <country-search-input
     placeholder="Buscar por País"
     (value)="query.set($event)"
+    [initialValue]="query()"
 />
 
 <!-- Componente Reutilizable country-list -->
