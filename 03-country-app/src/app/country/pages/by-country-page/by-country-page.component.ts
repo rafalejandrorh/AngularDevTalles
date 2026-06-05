@@ -1,7 +1,7 @@
 import { Component, inject, resource, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { ListComponent } from "../../components/list/list.component";
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -22,11 +22,11 @@ export class ByCountryPageComponent {
   countryResources = resource({
     request: () => ({ query: this.query() }),
     loader: async({ request }) => {
-      if(!request.query) return [];
+      if(!request.query) return of([]);
       this.router.navigate(['/country/by-country'], {
         queryParams: { query: request.query },
       });
-      return await firstValueFrom(this.countryService.searchByCountry(this.query()));
+      return await firstValueFrom(this.countryService.searchByCountry(request.query));
     }
   });
   

@@ -28,7 +28,7 @@ export class ByCapitalPageComponent {
       this.router.navigate(['/country/by-capital'], {
         queryParams: { query: request.query },
       });
-      return this.countryService.searchByCapital(this.query());
+      return this.countryService.searchByCapital(request.query);
     }
   });
 
